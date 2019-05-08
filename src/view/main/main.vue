@@ -1,11 +1,11 @@
 <template>
   <Layout style="height: 100%" class="main">
-    <Sider hide-trigger collapsible :width="220" :collapsed-width="64" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
+    <Sider hide-trigger collapsible :width="220" :collapsed-width="70" v-model="collapsed" class="left-sider" :style="{overflow: 'hidden'}">
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
           <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-          <!-- <img v-show="collapsed" key="min-logo" /> -->
+          <img style="width:50px;height:45px;" v-show="collapsed" :src="minLogo" key="min-logo" />
         </div>
       </side-menu>
     </Sider>
@@ -43,8 +43,10 @@ import Fullscreen from './components/fullscreen'
 import Language from './components/language'
 import { mapMutations, mapActions } from 'vuex'
 import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
-import minLogo from '@/assets/images/ico.png'
+import minLogo from '@/assets/images/minico.png'
 import maxLogo from '@/assets/images/logo.png'
+import userLogoutLogo from '@/assets/images/ico.png'
+
 import './main.less'
 export default {
   name: 'Main',
@@ -61,6 +63,7 @@ export default {
       collapsed: false,
       minLogo,
       maxLogo,
+      userLogoutLogo,
       isFullscreen: false
     }
   },
@@ -72,7 +75,7 @@ export default {
       return this.$store.state.app.tagRouter
     },
     userAvator () {
-      return minLogo
+      return userLogoutLogo
     },
     cacheList () {
       return this.tagNavList.length ? this.tagNavList.filter(item => !(item.meta && item.meta.notCache)).map(item => item.name) : []
